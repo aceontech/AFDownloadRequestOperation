@@ -312,7 +312,9 @@ typedef void (^AFURLConnectionProgressiveOperationProgressBlock)(AFDownloadReque
     NSError *error = nil;
     if(![filemgr createDirectoryAtPath:cacheFolder withIntermediateDirectories:YES attributes:nil error:&error]) {
         NSLog(@"Failed to create cache directory at %@", cacheFolder);
-        cacheFolder = nil;
+        if (error.code != NSFileWriteFileExistsError) {
+            cacheFolder = nil;
+        }
     }
     return cacheFolder;
 }
